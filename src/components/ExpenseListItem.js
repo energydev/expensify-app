@@ -3,13 +3,19 @@
 // connect gets us access to the dispatch prop - export default connect()(ExpenseListItem); if we needed it
 
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import moment from "moment";
+import numeral from "numeral";
 
-const ExpenseListItem = ( {description, amount, createdAt, id} ) => (
+const ExpenseListItem = ({ description, amount, createdAt, id }) => (
     <div>
 
         <Link to={`/edit/${id}`}><h3>{description}</h3></Link>
-        <p>{amount} - {createdAt}</p>
+        <p>
+            {numeral(amount / 100).format("$0,0.00")}
+            -
+            {moment(createdAt).format("MMMM Do, YYYY")}
+        </p>
     </div>
 );
 
