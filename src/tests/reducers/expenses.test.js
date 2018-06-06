@@ -48,3 +48,17 @@ test("should not edit an expense if expense not found", () => {
     const state = expensesReducer(expenses, action);
     expect(state).toEqual(expenses);
 });
+
+//have somme initial expenses passed to expensesReducer and then different ones for the action object
+//dispatch an action and expect all the expenses passed in to be what's inside the state
+//and any already existing to be gone
+test("should set expenses", () => {
+    const expensesToSet = [
+        { description: "Mango Smoothie", note: "", amount: 35000, createdAt: 1000, id: "1"  },
+        { description: "Paint", note: "", amount: 1500, createdAt: 35000, id: "2abcdef"  },
+    ];
+    const action = { type: "SET_EXPENSES", expenses: expensesToSet };
+    const state = expensesReducer(expenses, action);
+    expect(state).toEqual(expensesToSet);
+
+});
