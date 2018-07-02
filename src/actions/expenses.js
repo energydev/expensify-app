@@ -71,3 +71,19 @@ export const startSetExpenses = () => {
     };
 };
 
+export const startRemoveExpense = ({ id }) => {
+
+    return (dispatch) => {
+        //remove expense from Firebase
+        const expRef = database.ref('expenses/' + id);
+        return expRef.remove()
+            .then(function () {
+                dispatch(removeExpense({ id }));
+            })
+            .catch(function (error) {
+                console.log("Remove failed: " + error.message);
+            });
+
+    };
+};
+
