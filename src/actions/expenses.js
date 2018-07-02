@@ -22,9 +22,10 @@ export const startAddExpense = (expenseData = {}) => {
             dispatch(addExpense({
                 id: ref.key,
                 ...expense
-            }))
+            }));
+        }).catch((e) => {
+            console.log("Add expense failed");
         });
-
     };
 };
 
@@ -34,6 +35,22 @@ export const removeExpense = ({ id }) => ({
     id
 });
 
+export const startRemoveExpense = ({ id }) => {
+
+    return (dispatch) => {
+        //remove expense from Firebase
+        const expRef = database.ref('expenses/' + id);
+        return expRef.remove()
+            .then(function () {
+                dispatch(removeExpense({ id }));
+            })
+            .catch(function (error) {
+                console.log("Remove failed: " + error.message);
+            });
+
+    };
+};
+
 // EDIT_EXPENSE
 
 export const editExpense = (id, updates) => ({
@@ -41,6 +58,17 @@ export const editExpense = (id, updates) => ({
     id,
     updates
 });
+
+export const startEditExpense = (id, updates) => {
+    return (dispatch) => {
+        const expRef = database.ref('expenses/' + id);
+        return expRef.update(updates).then(() => {
+            return dispatch(editExpense(id, updates));
+         }).catch((e) => {
+            console.log("Data edit failed. ", e.message);
+         });
+    };
+};
 
 // SET_EXPENSES
 export const setExpenses = (expenses) => ({
@@ -71,19 +99,5 @@ export const startSetExpenses = () => {
     };
 };
 
-export const startRemoveExpense = ({ id }) => {
 
-    return (dispatch) => {
-        //remove expense from Firebase
-        const expRef = database.ref('expenses/' + id);
-        return expRef.remove()
-            .then(function () {
-                dispatch(removeExpense({ id }));
-            })
-            .catch(function (error) {
-                console.log("Remove failed: " + error.message);
-            });
-
-    };
-};
 

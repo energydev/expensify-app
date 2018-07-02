@@ -1,6 +1,15 @@
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
-import { addExpense, startAddExpense, editExpense, removeExpense, startRemoveExpense, setExpenses, startSetExpenses } from "../../actions/expenses";
+import {
+    addExpense,
+    startAddExpense,
+    editExpense,
+    startEditExpense,
+    removeExpense,
+    startRemoveExpense,
+    setExpenses,
+    startSetExpenses
+} from "../../actions/expenses";
 import expenses from "../fixtures/expenses";
 import database from "../../firebase/firebase";
 
@@ -55,6 +64,29 @@ test("should setup add expense action object with provided values", () => {
     expect(action).toEqual({
         type: "ADD_EXPENSE",
         expense: expenses[2]
+    });
+});
+
+test("should edit expense from firebase", (done) => {
+    const store = createMockStore({});
+
+    const id = expenses[2].id;
+    const updates = {note: "This is a new test note", amount: 325}
+
+    store.dispatch(startEditExpense(id, updates)).then(() => {
+        const actions = store.getActions();
+        expect(actions[0]).toEqual({
+            type: "EDIT_EXPENSE",
+            id,
+            updates
+        });
+
+        //promise chain
+        return database.ref(`expenses/${id}`).once("value");
+    }).then((snapshot) => {
+        expect(snapshot.val().amount).toBe(updates.amount);
+        expect(snapshot.val().note).toBe(updates.note);
+        done();
     });
 });
 
@@ -122,7 +154,7 @@ test("should setup set expense action object with data", () => {
     })
 });
 
-test("should fetch the expenses from firebase", () => {
+test("should fetch the expenses from firebase", (done) => {
     const store = createMockStore({});
     store.dispatch(startSetExpenses()).then(() => {
         const actions = store.getActions();
