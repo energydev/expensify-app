@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import numeral from "numeral";
 import { SingleDatePicker } from "react-dates";
 
 const now = moment();
@@ -76,7 +77,7 @@ export default class ExpenseForm extends React.Component {
                     className="text-input"
                     value={this.state.amount}
                     onChange={this.onAmountChange}
-                />
+                 />
                 <SingleDatePicker
                     date={this.state.createdAt}
                     onDateChange={this.onDateChange}

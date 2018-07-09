@@ -4,3 +4,4 @@ src/playground/
 .env.test
 .env.development
 .firebaserules
+yarn-error.log

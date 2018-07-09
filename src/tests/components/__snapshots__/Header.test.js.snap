@@ -16,15 +16,24 @@ exports[`should render Header correctly 1`] = `
         to="/dashboard"
       >
         <h1>
-          Expensify
+          Expenses Demo
         </h1>
       </Link>
-      <button
-        className="button button--link"
-        onClick={[Function]}
-      >
-        Logout
-      </button>
+      <div>
+        <Link
+          className="header__link"
+          replace={false}
+          to="/about"
+        >
+          About
+        </Link>
+        <button
+          className="button button--link"
+          onClick={[Function]}
+        >
+          Logout
+        </button>
+      </div>
     </div>
   </div>
 </header>
