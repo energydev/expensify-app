@@ -1,4 +1,4 @@
-# indecision-app
+# Expensify App
 
 React 16 application using Babel, Webpack, ES6, and SASS. 
 
