@@ -1,0 +1,4 @@
+/dashboard   /dashboard
+/about	/about
+/create	/create
+/edit/*	/edit/*
